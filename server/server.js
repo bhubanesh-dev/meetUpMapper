@@ -1,10 +1,16 @@
-// server.js
 import express from "express";
 import http from "http";
 import cors from "cors";
 import apiRoutes, { setSocketIO } from "./routes/apiRoutes.js";
 import { Server } from "socket.io";
 import { handleSocketConnection } from "./scoket/socketController.js";
+import { configDotenv } from "dotenv";
+
+// Load environment variables
+configDotenv();
+
+// Check if PORT is loaded
+console.log(`Loaded port from .env: ${process.env.PORT}`);
 
 const app = express();
 const server = http.createServer(app);
@@ -24,7 +30,9 @@ const io = new Server(server, {
   },
 });
 
-
+app.get("/", (req, res) => {
+  res.send(`Hello from Coder`);
+});
 
 // Handle socket connections
 handleSocketConnection(io);
